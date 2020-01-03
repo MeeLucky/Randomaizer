@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        style="@style/Header"
+        android:text="@string/tab2"
+        android:id="@+id/result"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/min"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:textSize="50sp"
+            android:hint="min"
+            android:text="0"
+            android:inputType="number"
+            tools:ignore="HardcodedText" />
+
+        <EditText
+            android:id="@+id/max"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:textSize="50sp"
+            android:hint="max"
+            android:text="100"
+            android:inputType="numberDecimal"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/generate"
+        android:onClick="NumberRandom"
+        tools:ignore="HardcodedText" />
+</LinearLayout>
