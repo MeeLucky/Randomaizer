@@ -8,7 +8,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewStub;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
@@ -17,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
-import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -134,6 +134,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void CoinRandom(View view) {
         TextView res = findViewById(R.id.result);
+
+        Animation flipCoin = AnimationUtils.loadAnimation(this, R.anim.little_stretch);
+        res.startAnimation(flipCoin);
+
         if(getRandom(0, 1) == 1) {
             res.setText("Да");
         } else {
@@ -141,14 +145,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     public void NumberRandom(View view) {
+        EditText ETmin = findViewById(R.id.min);
+        EditText ETmax = findViewById(R.id.max);
+
+        int min = 0, max = 100;
+        try {
+            min = Integer.valueOf(ETmin.getText().toString());
+            max = Integer.valueOf(ETmax.getText().toString());
+        } catch (Exception ex) {
+            ETmin.setText("0");
+            ETmax.setText("100");
+            Toast.makeText(this, "oops... Don't do that anymore!", Toast.LENGTH_SHORT).show();
+        }
+
+        if(min >= max) {
+            ETmin.setText("0");
+            ETmax.setText("100");
+            Toast.makeText(this, "be accurate...", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
         TextView res = findViewById(R.id.result);
 
-        EditText ETmin = findViewById(R.id.min);
-        int min = Integer.valueOf(ETmin.getText().toString());
-
-        EditText ETmax = findViewById(R.id.max);
-        int max = Integer.valueOf(ETmax.getText().toString());
+        Animation flipCoin = AnimationUtils.loadAnimation(this, R.anim.little_stretch);
+        res.startAnimation(flipCoin);
 
         res.setText(String.valueOf(getRandom(min, max)));
     }
@@ -179,9 +202,18 @@ public class MainActivity extends AppCompatActivity {
 
             int glen = ENglas.length;
             int slen = ENsogl.length;
-            int wordlen = Integer.valueOf(ETwordlen.getText().toString());
-            int spread = Integer.valueOf(ETspread.getText().toString());
-
+            int wordlen;
+            int spread;
+            try {
+                wordlen = Integer.valueOf(ETwordlen.getText().toString());
+                spread = Integer.valueOf(ETspread.getText().toString());
+            } catch (Exception ex) {
+                ETwordlen.setText("6");
+                ETspread.setText("1");
+                wordlen = 6;
+                spread = 1;
+                Toast.makeText(this, "bad guy...", Toast.LENGTH_SHORT).show();
+            }
             if(getRandom(0,1) == 1)
                 wordlen += getRandom(0, spread);
             else

@@ -16,5 +16,6 @@
         android:layout_gravity="center"
         android:text="Кинуть монетку"
         android:onClick="CoinRandom"
+        android:layout_marginTop="10dp"
         tools:ignore="HardcodedText" />
 </LinearLayout>
