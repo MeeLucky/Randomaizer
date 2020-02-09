@@ -18,4 +18,38 @@
         android:onClick="CoinRandom"
         android:layout_marginTop="10dp"
         tools:ignore="HardcodedText" />
+
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/resAnim"
+            android:id="@+id/enableAnim"
+            android:checked="true"
+            android:textSize="25sp"
+            android:layout_gravity="center"/>
+
+
+        <RadioGroup android:id="@+id/randType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <RadioButton style="randTypeRadio"
+                android:text="орёл и решка"
+                android:tag="true"
+                android:id="@+id/randTypeR1"
+                android:onClick="SwitchRandTypeRes"/>
+
+            <RadioButton style="randTypeRadio"
+                android:text="да и нет"
+                android:tag="false"
+                android:onClick="SwitchRandTypeRes"/>
+        </RadioGroup>
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:gravity="center">-->
+<!--    </LinearLayout>-->
 </LinearLayout>

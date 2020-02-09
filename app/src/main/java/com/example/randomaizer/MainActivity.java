@@ -5,15 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
     static Button currentTab;
     static int colorDefaultTab = Color.parseColor("#008577");
     static int colorCurrentTab = Color.parseColor("#00574B");
+
+    static boolean ResultAnim = true;
+    static boolean RandType = true;
 
     //for swipe detector
     private float x1,x2;
@@ -40,8 +47,12 @@ public class MainActivity extends AppCompatActivity {
 
         currentTab = findViewById(R.id.firstTabButton);
         currentTab.setBackgroundColor(colorCurrentTab);
+
+        RadioButton randTypeR1 = findViewById(R.id.randTypeR1);
+        randTypeR1.setChecked(true);
     }
 
+    //swipe catch
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch(event.getAction())
@@ -133,16 +144,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void CoinRandom(View view) {
-        TextView res = findViewById(R.id.result);
+//        TextView res = findViewById(R.id.result);
+        CheckBox enableAnim = findViewById(R.id.enableAnim);
 
-        Animation flipCoin = AnimationUtils.loadAnimation(this, R.anim.little_stretch);
-        res.startAnimation(flipCoin);
+        if(enableAnim.isChecked()) {
+            //anim of rotate and scale
+            Animation flipCoin = AnimationUtils.loadAnimation(this, R.anim.little_stretch);
+            findViewById(R.id.result).startAnimation(flipCoin);
 
-        if(getRandom(0, 1) == 1) {
-            res.setText("Да");
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //change result value after 400ms
+                    TextView res = findViewById(R.id.result);
+
+                    if (getRandom(0, 1) == 1) {
+                        res.setText(RandType ? "решка" : "да");
+                    } else {
+                        res.setText(RandType ? "орёл" : "нет");
+                    }
+                }
+            }, 400);
+
         } else {
-            res.setText("Нет");
+            TextView res = findViewById(R.id.result);
+
+            if (getRandom(0, 1) == 1) {
+                res.setText(RandType ? "решка" : "да");
+            } else {
+                res.setText(RandType ? "орёл" : "нет");
+            }
         }
+
+//        if(getRandom(0, 1) == 1) {
+//            res.setText("Да");
+//        } else {
+//            res.setText("Нет");
+//        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -214,6 +253,7 @@ public class MainActivity extends AppCompatActivity {
                 spread = 1;
                 Toast.makeText(this, "bad guy...", Toast.LENGTH_SHORT).show();
             }
+
             if(getRandom(0,1) == 1)
                 wordlen += getRandom(0, spread);
             else
@@ -230,5 +270,11 @@ public class MainActivity extends AppCompatActivity {
         res1.setText(words[0]);
         res2.setText(words[1]);
         res3.setText(words[2]);
+    }
+
+    public void SwitchRandTypeRes(View view) {
+        RadioButton rb = (RadioButton) view;
+
+        RandType = rb.getTag().toString().equals("true");
     }
 }
