@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,11 +27,9 @@ public class MainActivity extends AppCompatActivity {
     static int colorDefaultTab = Color.parseColor("#008577");
     static int colorCurrentTab = Color.parseColor("#00574B");
 
-    static boolean ResultAnim = true;
     static boolean RandType = true;
 
-    //for swipe detector
-    private float x1,x2;
+    //for swipe detector. min swipe distance
     static final int MIN_DISTANCE = 150;
 
     @Override
@@ -52,13 +51,14 @@ public class MainActivity extends AppCompatActivity {
     //swipe catch
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        float x1 = 0;
         switch(event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
                 x1 = event.getX();
                 break;
             case MotionEvent.ACTION_UP:
-                x2 = event.getX();
+                float x2 = event.getX();
                 float deltaX = x2 - x1;
 
                 if(deltaX > MIN_DISTANCE || -deltaX > MIN_DISTANCE) {
@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     int tagCurrentTab = Integer.parseInt(currentTab.getTag().toString());
 
                     if(x1 > x2) {
+                        //right
 //                        Toast.makeText(this, "left2right swipe", Toast.LENGTH_SHORT).show ();
                         if(tagCurrentTab < tabCount) {
                             OpenTab(container.getChildAt(tagCurrentTab));//idk i think need tagCurrentTab +1 but no
@@ -74,9 +75,10 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
 
-                    if(x2 > x1) {
+                    if (x1 < x2) {
+                        //left
 //                        Toast.makeText(this, "right2left | tab:" + tagCurrentTab, Toast.LENGTH_SHORT).show ();
-                        if(tagCurrentTab > 0) {
+                        if (tagCurrentTab > 1) {
                             OpenTab(container.getChildAt(tagCurrentTab - 2));
                         }
                         break;
@@ -192,60 +194,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void WordGenerate(View v) {
-        TextView res1 = findViewById(R.id.result1);
-        TextView res2 = findViewById(R.id.result2);
-        TextView res3 = findViewById(R.id.result3);
+        TextView[] res = {
+                findViewById(R.id.result1),
+                findViewById(R.id.result2),
+                findViewById(R.id.result3)
+        };
         EditText ETwordlen = findViewById(R.id.wordlen);
         EditText ETspread = findViewById(R.id.spread);
 
-//        char[] alphabetEN = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
-//                'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-        char[] ENglas = new char[] {'a', 'e', 'i', 'o', 'u', 'y'};
-        char[] ENsogl = new char[] {'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k',
-                'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'z'};
-
-        String[] words = new String[] { "", "", "" };
-
-        for (int n = 0; n < 3; n++) {
-
-            //чтобы иногда начиналось с гласных
-            if (Randomayzer.GetRandom(0, 1) == 1) {
-                char[] x = ENglas;
-                ENglas = ENsogl;
-                ENsogl = x;
-            }
-
-            int glen = ENglas.length;
-            int slen = ENsogl.length;
-            int wordlen;
-            int spread;
-            try {
-                wordlen = Integer.valueOf(ETwordlen.getText().toString());
-                spread = Integer.valueOf(ETspread.getText().toString());
-            } catch (Exception ex) {
-                ETwordlen.setText("6");
-                ETspread.setText("1");
-                wordlen = 6;
-                spread = 1;
-                Toast.makeText(this, "bad guy...", Toast.LENGTH_SHORT).show();
-            }
-
-            if (Randomayzer.GetRandom(0, 1) == 1)
-                wordlen += Randomayzer.GetRandom(0, spread);
-            else
-                wordlen -= Randomayzer.GetRandom(0, spread);
-
-            for(int i = 0; i < wordlen; i++) {
-                if(i%2 == 0)
-                    words[n] += (ENsogl[Randomayzer.GetRandom(0, slen - 1)]);
-                else
-                    words[n] += (ENglas[Randomayzer.GetRandom(0, glen - 1)]);
-            }
+        int wordlen;
+        int spread;
+        try {
+            wordlen = Integer.valueOf(ETwordlen.getText().toString());
+            spread = Integer.valueOf(ETspread.getText().toString());
+        } catch (Exception ex) {
+            ETwordlen.setText("6");
+            ETspread.setText("1");
+            Toast.makeText(this, "bad guy...", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        res1.setText(words[0]);
-        res2.setText(words[1]);
-        res3.setText(words[2]);
+        //output
+        for (TextView re : res) {
+            re.setText(Randomayzer.GetWordRandom(wordlen, spread));
+            re.setMovementMethod(new ScrollingMovementMethod());
+        }
     }
 
     public void SwitchRandTypeRes(View view) {
