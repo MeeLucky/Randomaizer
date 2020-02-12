@@ -46,4 +46,13 @@
         android:text="@string/generate"
         android:onClick="NumberRandom"
         tools:ignore="HardcodedText" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/resAnim"
+        android:id="@+id/enableAnim"
+        android:checked="true"
+        android:textSize="25sp"
+        android:layout_gravity="center" />
 </LinearLayout>

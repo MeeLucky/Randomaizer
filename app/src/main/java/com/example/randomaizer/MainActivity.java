@@ -1,12 +1,9 @@
 package com.example.randomaizer;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,11 +18,11 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Random;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    static Button currentTab;
+    Button currentTab;
     static int colorDefaultTab = Color.parseColor("#008577");
     static int colorCurrentTab = Color.parseColor("#00574B");
 
@@ -106,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         switch (tag) {
             case 1:
                 view = R.layout.tab_1;
-                tabContainer.scrollTo(00, 0);
+                tabContainer.scrollTo(0, 0);
                 break;
             case 2:
                 view = R.layout.tab_2;
@@ -133,18 +130,7 @@ public class MainActivity extends AppCompatActivity {
         currentTab = btn;
     }
 
-    private static int getRandom(int min, int max) {
-
-        if (min >= max) {
-            throw new IllegalArgumentException("max must be greater than min");
-        }
-
-        Random r = new Random();
-        return r.nextInt((max - min) + 1) + min;
-    }
-
     public void CoinRandom(View view) {
-//        TextView res = findViewById(R.id.result);
         CheckBox enableAnim = findViewById(R.id.enableAnim);
 
         if(enableAnim.isChecked()) {
@@ -152,36 +138,22 @@ public class MainActivity extends AppCompatActivity {
             Animation flipCoin = AnimationUtils.loadAnimation(this, R.anim.little_stretch);
             findViewById(R.id.result).startAnimation(flipCoin);
 
+            //text change delay
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     //change result value after 400ms
                     TextView res = findViewById(R.id.result);
-
-                    if (getRandom(0, 1) == 1) {
-                        res.setText(RandType ? "решка" : "да");
-                    } else {
-                        res.setText(RandType ? "орёл" : "нет");
-                    }
+                    res.setText(Randomayzer.GetCoinRandom(RandType));
                 }
             }, 400);
 
         } else {
+            //without animation
             TextView res = findViewById(R.id.result);
-
-            if (getRandom(0, 1) == 1) {
-                res.setText(RandType ? "решка" : "да");
-            } else {
-                res.setText(RandType ? "орёл" : "нет");
-            }
+            res.setText(Randomayzer.GetCoinRandom(RandType));
         }
-
-//        if(getRandom(0, 1) == 1) {
-//            res.setText("Да");
-//        } else {
-//            res.setText("Нет");
-//        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -189,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         EditText ETmin = findViewById(R.id.min);
         EditText ETmax = findViewById(R.id.max);
 
-        int min = 0, max = 100;
+        int min, max;
         try {
             min = Integer.valueOf(ETmin.getText().toString());
             max = Integer.valueOf(ETmax.getText().toString());
@@ -197,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
             ETmin.setText("0");
             ETmax.setText("100");
             Toast.makeText(this, "oops... Don't do that anymore!", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         if(min >= max) {
@@ -209,10 +182,13 @@ public class MainActivity extends AppCompatActivity {
 
         TextView res = findViewById(R.id.result);
 
-        Animation flipCoin = AnimationUtils.loadAnimation(this, R.anim.little_stretch);
-        res.startAnimation(flipCoin);
+        CheckBox enableAnim = findViewById(R.id.enableAnim);
+        if (enableAnim.isChecked()) {
+            Animation flipCoin = AnimationUtils.loadAnimation(this, R.anim.little_stretch);
+            res.startAnimation(flipCoin);
+        }
 
-        res.setText(String.valueOf(getRandom(min, max)));
+        res.setText(String.valueOf(Randomayzer.GetRandom(min, max)));
     }
 
     public void WordGenerate(View v) {
@@ -233,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
         for (int n = 0; n < 3; n++) {
 
             //чтобы иногда начиналось с гласных
-            if(getRandom(0, 1) == 1) {
+            if (Randomayzer.GetRandom(0, 1) == 1) {
                 char[] x = ENglas;
                 ENglas = ENsogl;
                 ENsogl = x;
@@ -254,16 +230,16 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "bad guy...", Toast.LENGTH_SHORT).show();
             }
 
-            if(getRandom(0,1) == 1)
-                wordlen += getRandom(0, spread);
+            if (Randomayzer.GetRandom(0, 1) == 1)
+                wordlen += Randomayzer.GetRandom(0, spread);
             else
-                wordlen -= getRandom(0, spread);
+                wordlen -= Randomayzer.GetRandom(0, spread);
 
             for(int i = 0; i < wordlen; i++) {
                 if(i%2 == 0)
-                    words[n] += (ENsogl[getRandom(0, slen-1)]);
+                    words[n] += (ENsogl[Randomayzer.GetRandom(0, slen - 1)]);
                 else
-                    words[n] += (ENglas[getRandom(0, glen-1)]);
+                    words[n] += (ENglas[Randomayzer.GetRandom(0, glen - 1)]);
             }
         }
 
