@@ -2,6 +2,7 @@ package com.example.randomaizer;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.graphics.drawable.LevelListDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.method.ScrollingMovementMethod;
@@ -14,23 +15,30 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+
+import static java.lang.Integer.parseInt;
 
 public class MainActivity extends AppCompatActivity {
 
     Button currentTab;
     static int colorDefaultTab = Color.parseColor("#008577");
     static int colorCurrentTab = Color.parseColor("#00574B");
-
-    static boolean RandType = true;
-
     //for swipe detector. min swipe distance
     static final int MIN_DISTANCE = 150;
+
+    //"coin" or "yes/no"
+    static boolean CoinViewType = true;
+    //list of dices picture
+    LevelListDrawable dices = new LevelListDrawable();
+    static boolean DiceInMove = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,25 +54,31 @@ public class MainActivity extends AppCompatActivity {
 
         RadioButton randTypeR1 = findViewById(R.id.randTypeR1);
         randTypeR1.setChecked(true);
+
+        //list inflate
+        dices.addLevel(0, 6, ResourcesCompat.getDrawable(getResources(), R.drawable.dices, null));
     }
 
     //swipe catch
+    float x1;//не трогай эту переменную
+
+    //РАБОТАЕТ - НЕТРОГАЙ
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        float x1 = 0;
-        switch(event.getAction())
-        {
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 x1 = event.getX();
                 break;
+
             case MotionEvent.ACTION_UP:
                 float x2 = event.getX();
+
                 float deltaX = x2 - x1;
 
                 if(deltaX > MIN_DISTANCE || -deltaX > MIN_DISTANCE) {
                     LinearLayout container = findViewById(R.id.tabContainer);
                     int tabCount = container.getChildCount();
-                    int tagCurrentTab = Integer.parseInt(currentTab.getTag().toString());
+                    int tagCurrentTab = parseInt(currentTab.getTag().toString());
 
                     if(x1 > x2) {
                         //right
@@ -86,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 break;
+            default:
         }
         return super.onTouchEvent(event);
     }
@@ -99,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout content = findViewById(R.id.content);
         LayoutInflater inflater = getLayoutInflater();
         HorizontalScrollView tabContainer  = findViewById(R.id.tabScrollContainer);
-        int tag = Integer.valueOf(btn.getTag().toString());
+        int tag = parseInt(btn.getTag().toString());
         int view;
 
         switch (tag) {
@@ -136,8 +151,8 @@ public class MainActivity extends AppCompatActivity {
         CheckBox enableAnim = findViewById(R.id.enableAnim);
 
         if(enableAnim.isChecked()) {
-            //anim of rotate and scale
-            Animation flipCoin = AnimationUtils.loadAnimation(this, R.anim.little_stretch);
+            //anim
+            Animation flipCoin = AnimationUtils.loadAnimation(this, R.anim.shoc);
             findViewById(R.id.result).startAnimation(flipCoin);
 
             //text change delay
@@ -147,14 +162,14 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     //change result value after 400ms
                     TextView res = findViewById(R.id.result);
-                    res.setText(Randomayzer.GetCoinRandom(RandType));
+                    res.setText(Randomayzer.GetCoinRandom(CoinViewType));
                 }
             }, 400);
 
         } else {
             //without animation
             TextView res = findViewById(R.id.result);
-            res.setText(Randomayzer.GetCoinRandom(RandType));
+            res.setText(Randomayzer.GetCoinRandom(CoinViewType));
         }
     }
 
@@ -165,8 +180,8 @@ public class MainActivity extends AppCompatActivity {
 
         int min, max;
         try {
-            min = Integer.valueOf(ETmin.getText().toString());
-            max = Integer.valueOf(ETmax.getText().toString());
+            min = parseInt(ETmin.getText().toString());
+            max = parseInt(ETmax.getText().toString());
         } catch (Exception ex) {
             ETmin.setText("0");
             ETmax.setText("100");
@@ -186,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
 
         CheckBox enableAnim = findViewById(R.id.enableAnim);
         if (enableAnim.isChecked()) {
-            Animation flipCoin = AnimationUtils.loadAnimation(this, R.anim.little_stretch);
+            Animation flipCoin = AnimationUtils.loadAnimation(this, R.anim.little_stretch_and_mega_rotate);
             res.startAnimation(flipCoin);
         }
 
@@ -205,8 +220,8 @@ public class MainActivity extends AppCompatActivity {
         int wordlen;
         int spread;
         try {
-            wordlen = Integer.valueOf(ETwordlen.getText().toString());
-            spread = Integer.valueOf(ETspread.getText().toString());
+            wordlen = parseInt(ETwordlen.getText().toString());
+            spread = parseInt(ETspread.getText().toString());
         } catch (Exception ex) {
             ETwordlen.setText("6");
             ETspread.setText("1");
@@ -224,6 +239,23 @@ public class MainActivity extends AppCompatActivity {
     public void SwitchRandTypeRes(View view) {
         RadioButton rb = (RadioButton) view;
 
-        RandType = rb.getTag().toString().equals("true");
+        CoinViewType = rb.getTag().toString().equals("true");
+    }
+
+    public void DiceRandom(View view) {
+        ImageButton but = (ImageButton) view;
+
+        //BUG
+        //если не юзануть 2 нижние строчки, то первый "бросок"
+        // кубика будет без изменений (выкинет первый элемент из diceList)
+        dices.setLevel(0);
+        but.setImageDrawable(dices.getCurrent());
+
+        Animation diceRotate = AnimationUtils.loadAnimation(this, R.anim.rotate);
+        but.startAnimation(diceRotate);
+        but.setRotation(but.getRotation() - 90);
+
+        dices.setLevel(Randomayzer.GetRandom(1, 6));
+        but.setImageDrawable(dices.getCurrent());
     }
 }
