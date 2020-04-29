@@ -2,6 +2,7 @@ package com.example.randomaizer;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.LevelListDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +24,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
+
+import java.util.Objects;
 
 import static java.lang.Integer.parseInt;
 
@@ -98,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                 }
-
                 break;
             default:
         }
@@ -257,5 +259,20 @@ public class MainActivity extends AppCompatActivity {
 
         dices.setLevel(Randomayzer.GetRandom(1, 6));
         but.setImageDrawable(dices.getCurrent());
+    }
+
+    public void Info(View view) {
+        ImageButton but = findViewById(R.id.tipButton);
+        TextView text = findViewById(R.id.wordTipTextContainer);
+
+        if (but.getTag().toString().equals("1")) {
+            but.setImageBitmap(((BitmapDrawable) Objects.requireNonNull(getDrawable(R.drawable.tip_default))).getBitmap());
+            but.setTag(0);
+            text.setVisibility(View.INVISIBLE);
+        } else {
+            but.setImageBitmap(((BitmapDrawable) Objects.requireNonNull(getDrawable(R.drawable.tip_accent))).getBitmap());
+            but.setTag(1);
+            text.setVisibility(View.VISIBLE);
+        }
     }
 }

@@ -40,16 +40,13 @@
                 android:text="орёл и решка"
                 android:tag="true"
                 android:id="@+id/randTypeR1"
-                android:onClick="SwitchRandTypeRes"/>
+                android:onClick="SwitchRandTypeRes"
+                tools:ignore="HardcodedText" />
 
             <RadioButton style="randTypeRadio"
                 android:text="да и нет"
                 android:tag="false"
-                android:onClick="SwitchRandTypeRes"/>
+                android:onClick="SwitchRandTypeRes"
+                tools:ignore="HardcodedText" />
         </RadioGroup>
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:gravity="center">-->
-<!--    </LinearLayout>-->
 </LinearLayout>

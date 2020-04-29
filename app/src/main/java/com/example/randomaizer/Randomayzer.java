@@ -6,11 +6,9 @@ class Randomayzer {
     private static Random rand = new Random();
 
     static int GetRandom(int min, int max) {
-
         if (min >= max) {
             throw new IllegalArgumentException("max must be greater than min");
         }
-
 
         return rand.nextInt((max - min) + 1) + min;
     }
@@ -23,7 +21,6 @@ class Randomayzer {
     }
 
     static String GetWordRandom(int wordlen, int spread) {
-
 //        char[] alphabetEN = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
 //                'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
         char[] ENglas = new char[]{'a', 'e', 'i', 'o', 'u', 'y'};
@@ -53,7 +50,6 @@ class Randomayzer {
             else
                 word.append(ENglas[Randomayzer.GetRandom(0, glen - 1)]);
         }
-
 
         return word.toString();
     }

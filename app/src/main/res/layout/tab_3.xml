@@ -34,7 +34,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="длина:"/>
+            android:text="длина:"
+            tools:ignore="HardcodedText" />
         <EditText
             android:id="@+id/wordlen"
             android:layout_width="50dp"
@@ -43,12 +44,13 @@
             android:text="6"
             android:gravity="center"
             android:inputType="number"
-            tools:ignore="HardcodedText" />
+            tools:ignore="Autofill,HardcodedText,LabelFor" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="разброс:"/>
+            android:text="разброс:"
+            tools:ignore="HardcodedText" />
         <EditText
             android:id="@+id/spread"
             android:layout_width="50dp"
@@ -57,6 +59,30 @@
             android:text="1"
             android:gravity="center"
             android:inputType="number"
-            tools:ignore="HardcodedText" />
+            tools:ignore="Autofill,HardcodedText,LabelFor" />
+
+        <ImageButton
+            android:id="@+id/tipButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="0dp"
+            android:background="@color/transparent"
+            android:src="@drawable/tip_default"
+            android:scaleType="centerInside"
+            android:layout_gravity="center"
+            android:tag="0"
+            android:onClick="Info"
+            tools:ignore="ContentDescription" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/wordTipTextContainer"
+        android:paddingRight="30dp"
+        android:paddingLeft="30dp"
+        android:textSize="17sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:onClick="Info"
+        android:text="@string/word_tip_text" />
 </LinearLayout>
