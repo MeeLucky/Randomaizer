@@ -3,11 +3,13 @@
     <string name="tab1">монетка</string>
     <string name="tab2">число</string>
     <string name="tab3">слова</string>
-    <string name="tab4">кости</string>
+    <string name="tab4">кубик</string>
     <string name="generate">сгенерировать</string>
     <string name="nothing"> </string>
     <string name="resAnim">анимация</string>
     <string name="word_tip_text">Разброс - это возможность изменить длину слова то, есть при длине 6 и разбросе 1 длина слова может быть от 5 до 7 букв.
 \nЭти "слова" всего лишь случйная последовательность гласных и согласнах букв, которые не несут смыслвоой нагрузки, но хорошо подходят как основа для придумывания новых названий.
     </string>
+    <string name="min">Min:</string>
+    <string name="max">Max:</string>
 </resources>
