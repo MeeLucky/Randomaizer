@@ -269,10 +269,12 @@ public class MainActivity extends AppCompatActivity {
             but.setImageBitmap(((BitmapDrawable) Objects.requireNonNull(getDrawable(R.drawable.tip_default))).getBitmap());
             but.setTag(0);
             text.setVisibility(View.INVISIBLE);
+            text.setText("");
         } else {
             but.setImageBitmap(((BitmapDrawable) Objects.requireNonNull(getDrawable(R.drawable.tip_accent))).getBitmap());
             but.setTag(1);
             text.setVisibility(View.VISIBLE);
+            text.setText(getString(R.string.word_tip_text));
         }
     }
 }
