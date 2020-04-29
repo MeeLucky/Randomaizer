@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Randomaizer</string>
-    <string name="tab1">результат</string>
+    <string name="tab1">монетка</string>
     <string name="tab2">число</string>
     <string name="tab3">слова</string>
     <string name="tab4">кости</string>
     <string name="generate">сгенерировать</string>
     <string name="nothing"> </string>
     <string name="resAnim">анимация</string>
+    <string name="word_tip_text">Разброс - это возможность изменить длину слова то, есть при длине 6 и разбросе 1 длина слова может быть от 5 до 7 букв.</string>
 </resources>
