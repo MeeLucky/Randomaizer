@@ -25,9 +25,9 @@
             android:id="@+id/result3" />
 
         <Button
+            style="@style/generateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/generate"
             android:layout_gravity="center"
             android:onClick="WordGenerate" />
 
@@ -74,7 +74,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:padding="0dp"
-                android:background="@color/transparent"
+                android:background="@color/colorTransparent"
                 android:src="@drawable/tip_default"
                 android:scaleType="centerInside"
                 android:layout_gravity="center"

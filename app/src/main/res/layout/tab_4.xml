@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <!--    <TextView-->
-    <!--        style="@style/Header"-->
-    <!--        android:text="@string/tab4"-->
-    <!--        android:id="@+id/result"/>-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageButton
+        android:id="@+id/DiceBut"
+        android:onClick="DiceRandom"
+        android:src="@drawable/dice1"
+        android:background="@color/colorTransparent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:layout_width="350dp"
         android:layout_height="350dp"
         android:padding="40dp"
-        android:layout_gravity="center"
-        android:src="@drawable/dice1"
         android:scaleType="centerInside"
-        android:background="@color/transparent"
-        android:onClick="DiceRandom"
-        android:id="@+id/DiceBut"
-        android:contentDescription="to dice"
-        tools:ignore="HardcodedText" />
+        android:layout_marginTop="40dp"
+        android:contentDescription="@string/nothing" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

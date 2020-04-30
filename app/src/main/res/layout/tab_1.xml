@@ -11,13 +11,12 @@
         android:id="@+id/result"/>
 
     <Button
+        style="@style/generateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Кинуть монетку"
-        android:onClick="CoinRandom"
-        android:layout_marginTop="10dp"
-        tools:ignore="HardcodedText" />
+        android:text="@string/pass_coin"
+        android:onClick="CoinRandom" />
 
 
         <CheckBox

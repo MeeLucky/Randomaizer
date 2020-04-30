@@ -14,7 +14,7 @@
         <item name="android:onClick">OpenTab</item>
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/colorWhite</item>
     </style>
 
     <style name="Header">
@@ -22,6 +22,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">70sp</item>
+        <item name="android:textColor">@color/colorDark</item>
         <item name="android:scrollbars">horizontal</item>
         <item name="android:maxLines">1</item>
         <item name="android:id" tools:ignore="AaptCrash">@+id/result</item>
@@ -33,4 +34,19 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:textSize">25sp</item>
     </style>
+
+    <style name="generateButton">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:paddingRight">15sp</item>
+        <item name="android:paddingLeft">15sp</item>
+        <item name="android:text">@string/generate</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <!--        <item name="android:"></item>-->
+        <!--        <item name=""></item>-->
+    </style>
+
+    <color name="colorDark">#000000</color>
 </resources>
